@@ -8,7 +8,10 @@ class EnterPage extends StatefulWidget {
 }
 
 class _EnterPageState extends State<EnterPage> {
-  Transact transact=Transact(amount: 200,id: 1,isSpent: 1);
+  Transact transact=Transact(amount: 200,id: 123,isSpent: 1);
+
+  final dbHelper = DatabaseHelper.instance;
+
   void initState() {
     super.initState();
   }
@@ -37,11 +40,13 @@ class _EnterPageState extends State<EnterPage> {
                         transact.isSpent=1;
                       });
                     }, child: Text("Food")),
-                    FlatButton( child: Text("Travel")),
+                    FlatButton( onPressed: () => print(3), child: Text("Travel")),
                     FlatButton(
                       onPressed: () async {
-                        var json=transact.toMap();
-                        int i=await DatabaseHelper.instance.insert(
+                        // print(transact);
+                        var json = transact.toMap();
+                        // print(json);
+                        int i = await dbHelper.insert(
                           json
                         );
                         print(i);

@@ -20,6 +20,9 @@ class DatabaseHelper {
 
   Future<Database> get database async {
     if (_database != null) return _database;
+
+    //thia was returning null before thus there was no database
+
     _database = await _initiateDatabase();
     return _database;
   }
@@ -27,7 +30,10 @@ class DatabaseHelper {
   _initiateDatabase() async {
     Directory directory = await getApplicationDocumentsDirectory();
     String path = join(directory.path, _dbName);
-    await openDatabase(path, version: _dbVersion,
+
+    //you have to return this 
+
+    return await openDatabase(path, version: _dbVersion,
         onCreate: (Database db, int version) {
       db.execute('''
     CREATE TABLE $_tableName(
@@ -37,7 +43,7 @@ class DatabaseHelper {
     $date TEXT)
     ''');
     });
-    print("___INIT");
+    // print("___INIT");
   }
 
   Future<int> insert(Map<String, dynamic> row) async {
